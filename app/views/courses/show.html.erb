@@ -1,0 +1,39 @@
+<p>
+  <strong>Course Number:</strong>
+  <%= @course.course_number %>
+</p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @course.title %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @course.description %>
+</p>
+
+<p>
+  <strong>Instructor:</strong>
+  <%= @course.instructor %>
+</p>
+
+<p>
+  <strong>Startdate:</strong>
+  <%= @course.start_date %>
+</p>
+
+<p>
+  <strong>Enddate:</strong>
+  <%= @course.end_date %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @course.status %>
+</p>
+
+<% if current_user.usertype == 'Admin' or current_user.usertype == 'Super Admin' %>
+  <%= link_to 'Edit', edit_course_path(@course) %>
+<% end %>  
+<%= link_to 'Back', courses_path %>

@@ -1,0 +1,65 @@
+<h1>Courses for <%= @user.name %></h1>
+
+<h3> Current Courses </h3>
+
+<table border = "1">
+  <thead>
+    <tr>
+      <th>Course Number</th>
+      <th>Title</th>
+      <% if @user.usertype == 'Student' %>
+        <th>Decision</th>
+        <th>Grade</th>
+      <% end %>
+    </tr>
+  </thead>
+
+  <tbody>
+    
+    <% @courses.zip(@course_mappings).each do |course, course_mapping| %>
+      <% if course.status == 'Active' %>
+      <tr>
+        <td><%= course.course_number %></td>
+        <td><%= course.title %></td>
+        <% if @user.usertype == 'Student' %>
+          <td><%= course_mapping.decision %></td>
+          <td><%= course_mapping.grade %></td>
+        <% end %>
+      </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+<h3> History </h3>
+
+<table border = "1">
+  <thead>
+    <tr>
+      <th>Course Number</th>
+      <th>Title</th>
+      <% if @user.usertype == 'Student' %>
+        <th>Decision</th>
+        <th>Grade</th>
+      <% end %>
+    </tr>
+  </thead>
+
+  <tbody>
+    
+    <% @courses.zip(@course_mappings).each do |course, course_mapping| %>
+      <% if course.status == 'Inactive' %>
+      <tr>
+        <td><%= course.course_number %></td>
+        <td><%= course.title %></td>
+        <% if @user.usertype == 'Student' %>
+          <td><%= course_mapping.decision %></td>
+          <td><%= course_mapping.grade %></td>
+        <% end %>
+      </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+<br/>
+<%= link_to 'Back', :back %>

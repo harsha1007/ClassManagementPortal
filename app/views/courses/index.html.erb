@@ -1,0 +1,73 @@
+<%= form_for :course, url: search_courses_path, method: :get do |f| %>
+    <div class="field">
+      <%= f.label :"Course Number" %><br>
+      <%= f.text_field :course_number %>
+    </div>
+    <div class="field">
+      <%= f.label :title %><br>
+      <%= f.text_field :title %>
+    </div>
+    <div class="field">
+      <%= f.label :description %><br>
+      <%= f.text_field :description %>
+    </div>
+    <div class="field">
+      <%= f.label :instructor %><br>
+      <%= f.text_field :instructor %>
+    </div>
+    <div class="field">
+      <%= f.label :status %><br>
+      <%= f.select :status, ['Active','Inactive'], include_blank: true %>
+    </div>
+    <%= f.submit :Search %>
+<% end %>
+
+<h1>Listing Courses</h1>
+
+<table border="1">
+  <thead>
+    <tr>
+      <th>Course Number</th>
+      <th>Title</th>
+      <th>Instructor</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @courses.each do |course| %>
+      <tr>
+        <td><%= course.course_number %></td>
+        <td><%= course.title %></td>
+        <td><%= course.instructor %></td>
+        <td><%= link_to 'Show', course_path(course) %></td>
+        <% if current_user.usertype == 'Admin' or  current_user.usertype == 'Super Admin' %>
+          <td><%= link_to 'Edit', edit_course_path(course) %></td>
+          <td><%= link_to 'Delete', course, method: :delete, data: { confirm: 'If you delete the course all data including students and their grades will be lost. Are you sure you want to delete it?' } %></td>
+        <% end %>
+        <% if course.status == 'Active' %>
+          <% if current_user.usertype == 'Student' %>
+            <td><%= link_to 'Enroll', {:controller => "course_mappings", :action => "enroll", :id => course.id } %></td>
+          <% end %>
+          <% if current_user.usertype == 'Admin' or current_user.usertype == 'Super Admin' %>
+          <td><%= link_to "Enroll Requests", {:controller => "course_mappings", :action => "requests", :id => course.id } %></td>
+          <td><%= link_to "View Students", {:controller => "courses", :action => "students", :id => course.id } %></td>
+          <td><%= link_to 'Course Material', {:controller => "materials", :action => "show", :id => course.id } %></td>
+          <% end %>
+        <% else %>
+          <% if current_user.usertype == 'Student' %>
+          <td><%= form_for :notification, url: new_notification_path, method: :get do |f| %>
+            <%= f.hidden_field :user_email, value: current_user.email %>
+            <%= f.hidden_field :course_id, value: course.id %>
+            <%= f.hidden_field :status, value: 'Requested' %>
+            <div class="actions">
+              <%= f.submit :"Notify when active" %>
+            </div>
+          <% end %></td>
+          <% end %>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>

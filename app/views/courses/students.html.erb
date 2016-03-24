@@ -1,0 +1,29 @@
+<h3> Listing Students in this course </h3>
+
+<table border="1">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @students.each do |student| %>
+      <tr>
+        <td><%= student.name %></td>
+        <td><%= student.email %></td>
+        <td><%= link_to 'Remove', {:controller => "course_mappings", :action => "remove", :user => student, :course => @course } %></td>
+        <td><%= form_for :course_mapping, url: grades_course_mapping_path, method: :get do |f| %>
+            <%= f.hidden_field :user_id, value: student.id %>
+            <%= f.hidden_field :course_id, value: @course.id %>
+            <%= f.select :grade, ['A', 'B', 'C', 'D', 'F'], include_blank: true %>
+            <%= f.submit :"Post Grade" %>
+            <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<br/>
+<%= link_to "Back", :back %>

@@ -1,0 +1,76 @@
+<h1>My Courses</h1>
+
+<h3> Current Courses </h3>
+
+<table border = "1">
+  <thead>
+    <tr>
+      <th>Course Number</th>
+      <th>Title</th>
+      <% if current_user.usertype == 'Student' %>
+        <th>Decision</th>
+        <th>Grade</th>
+      <% end %>
+    </tr>
+  </thead>
+
+  <tbody>
+    
+    <% @courses.zip(@course_mappings).each do |course, course_mapping| %>
+      <% if course.status == 'Active' %>
+      <tr>
+        <td><%= course.course_number %></td>
+        <td><%= course.title %></td>
+        <% if current_user.usertype == 'Student' %>
+          <td><%= course_mapping.decision %></td>
+          <td><%= course_mapping.grade %></td>
+        <% end %>
+        <td><%= link_to 'Show', {:controller => "course_mappings", :action => "show", :id => course.id } %></td>
+        <% if current_user.usertype == 'Instructor' %>
+        <td><%= link_to "Enroll Requests", {:controller => "course_mappings", :action => "requests", :id => course.id } %></td>
+        <td><%= link_to "View Students", {:controller => "courses", :action => "students", :id => course.id } %></td>
+        <td><%= link_to 'Inactive Request', {:controller => "courses", :action => "inactive_requests", :id => course.id } %></td>
+        <% end %>
+        <% if course_mapping.decision == 'Accepted' or current_user.usertype == 'Instructor' %>
+        <td><%= link_to 'Course Material', {:controller => "materials", :action => "show", :id => course.id } %></td>
+        <% if current_user.usertype == 'Student' %>
+        <td><%= link_to 'Drop', {:controller => "course_mappings", :action => "remove", :user => current_user, :course => course } %></td>
+        <% end %>
+        <% end %>
+      </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+<h3> History </h3>
+
+<table border = "1">
+  <thead>
+    <tr>
+      <th>Course Number</th>
+      <th>Title</th>
+      <% if current_user.usertype == 'Student' %>
+        <th>Decision</th>
+        <th>Grade</th>
+      <% end %>
+    </tr>
+  </thead>
+
+  <tbody>
+    
+    <% @courses.zip(@course_mappings).each do |course, course_mapping| %>
+      <% if course.status == 'Inactive' %>
+      <tr>
+        <td><%= course.course_number %></td>
+        <td><%= course.title %></td>
+        <% if current_user.usertype == 'Student' %>
+          <td><%= course_mapping.decision %></td>
+          <td><%= course_mapping.grade %></td>
+        <% end %>  
+        <td><%= link_to 'Show', {:controller => "course_mappings", :action => "show", :id => course.id } %></td>
+      </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>

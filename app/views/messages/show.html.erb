@@ -1,0 +1,26 @@
+<br/>
+<%= link_to 'Inbox', {controller: "messages", action: "show", id: current_user.id} %>
+<%= link_to 'New Message', new_message_path %>
+<br/>
+<br/>
+<table border="1">
+  <thead>
+    <tr>
+      <th>Sender</th>
+      <th>Message</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @messages.each do |message| %>
+      <tr>
+        <td><%= message.sender_id %></td>
+        <td><%= message.message %></td> 
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br/>
+
+<%= link_to 'Back', messages_path %>

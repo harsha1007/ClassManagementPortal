@@ -1,0 +1,32 @@
+<html>
+<head>
+	<title> User Information | NCSU Class Portal </title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+  <style>
+  body{
+    background-color: #C0C0C0;
+  }
+  </style>
+</head>
+<body>
+	<p id="notice"><%= notice %></p>
+
+	<p>
+  		<strong>Name:</strong>
+  		<%= @user.name %>
+	</p>
+
+	<p>
+  		<strong>Email:</strong>
+  		<%= @user.email %>
+	</p>
+
+	<p>
+  		<strong>UserType:</strong>
+  		<%= @user.usertype %>
+	</p>
+
+	<%= link_to 'Back', :back %>
+</body>

@@ -1,0 +1,25 @@
+<h3>Following are the courses whose instructors have requested to make them inactive.</h3>
+
+<table border="1">
+  <thead>
+    <tr>
+      <th>Course Number</th>
+      <th>Title</th>
+      <th>Instructor</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @courses.each do |course| %>
+      <tr>
+        <td><%= course.course_number %></td>
+        <td><%= course.title %></td>
+        <td><%= course.instructor %></td>
+        <td><%= link_to 'Show', course_path(course) %></td>
+        <% if current_user.usertype == 'Admin' or  current_user.usertype == 'Super Admin' %>
+          <td><%= link_to 'Edit', edit_course_path(course) %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

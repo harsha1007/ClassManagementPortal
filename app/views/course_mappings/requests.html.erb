@@ -1,0 +1,21 @@
+<h3> Pending Requests </h3>
+
+<table border = "1">
+  <thead>
+    <tr>
+      <th>Student Name</th>
+      <th>Email ID</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.name %></td>
+        <td><%= user.email %></td>
+        <td><%= link_to 'Accept', {:controller => "course_mappings", :action => "accept", :user => user, :course => @course } %></td>
+        <td><%= link_to 'Reject', {:controller => "course_mappings", :action => "reject", :user => user, :course => @course } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
